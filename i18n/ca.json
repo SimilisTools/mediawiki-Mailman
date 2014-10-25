@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Toniher"
+		]
+	},
+	"mailman-desc": "Extensió de MediaWiki per a imprimer un camp de subscripció a Mailman",
+	"mailman-email": "Adreça electrònica",
+	"mailman-subscribe": "Subscriu a aquesta llista"
+}

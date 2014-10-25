@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Toniher"
+		]
+	},
+	"mailman-desc": "MediaWiki extension for printing Mailman subscription field",
+	"mailman-email": "Email address",
+	"mailman-subscribe": "Subscribe to this list"
+}
