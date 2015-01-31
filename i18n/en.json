@@ -6,5 +6,6 @@
 	},
 	"mailman-desc": "MediaWiki extension for printing Mailman subscription field",
 	"mailman-email": "Email address",
-	"mailman-subscribe": "Subscribe to this list"
+	"mailman-subscribe": "Subscribe to this list",
+	"mailman-subscribed": "Subscribed. Check your mailbox"
 }
