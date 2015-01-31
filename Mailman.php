@@ -21,6 +21,12 @@ call_user_func( function() {
 	$GLOBALS['wgMessagesDirs']['Mailman'] = __DIR__ . '/i18n';
 	$GLOBALS['wgExtensionMessagesFiles']['Mailman'] = dirname( __FILE__ ) . '/Mailman.i18n.php';
 
+	$GLOBALS['wgResourceModules']['ext.mailman'] = array(
+		    'scripts' => array( 'libs/mailman.js' ),
+		    'localBasePath' => __DIR__,
+		    'remoteExtPath' => 'Mailman'
+	);
+
 } );
 
 function wfMailmanExtension() {
@@ -36,11 +42,20 @@ function printMailmanForm( $input, $argv, $parser, $frame ) {
 	$input = preg_replace('/listinfo/', 'subscribe', $input);
 	$input = strip_tags( $input );
 	
-	
-	$output = "<form action=\"$input\" method=\"post\">".
-	  "<input name=\"email\" type=\"text\" value=\"".wfMessage("mailman-email")->escaped()."\" onfocus=\"cleartext(this)\" class='mailman-extension' />".
-	  "<input name=\"email-button\" type=\"submit\" value=\"".wfMessage("mailman-subscribe")->escaped()."\" />".
-	  "</form>";
+	if ( array_key_exists( "ajax", $argv ) ) {
+		$out = $parser->getOutput();
+		$out->addModules( 'ext.mailman' );
+		$output = "<div class='mailman-mw'>".
+		"<input data-action=\"$input\" name=\"email\" type=\"text\" value=\"".wfMessage("mailman-email")->escaped()."\" onfocus=\"cleartext(this)\" class='mailman-extension' />".
+		"<input name=\"email-button\" type=\"button\" value=\"".wfMessage("mailman-subscribe")->escaped()."\" /></div>";
+		
+	} else {
+		$output = "<form action=\"$input\" method=\"post\">".
+		"<input name=\"email\" type=\"text\" value=\"".wfMessage("mailman-email")->escaped()."\" onfocus=\"cleartext(this)\" class='mailman-extension' />".
+		"<input name=\"email-button\" type=\"submit\" value=\"".wfMessage("mailman-subscribe")->escaped()."\" />".
+		"</form>";
+	}
+
 	return $output;
 }
 
