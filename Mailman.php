@@ -22,9 +22,15 @@ call_user_func( function() {
 	$GLOBALS['wgExtensionMessagesFiles']['Mailman'] = dirname( __FILE__ ) . '/Mailman.i18n.php';
 
 	$GLOBALS['wgResourceModules']['ext.mailman'] = array(
-		    'scripts' => array( 'libs/mailman.js' ),
-		    'localBasePath' => __DIR__,
-		    'remoteExtPath' => 'Mailman'
+			'scripts' => array( 'libs/mailman.js' ),
+			'localBasePath' => __DIR__,
+			'remoteExtPath' => 'Mailman',
+			'dependencies' => array(
+				'mediawiki.jqueryMsg'
+			),
+			'messages' => array( 
+				'mailman-subscribed'
+			)
 	);
 
 } );
@@ -42,16 +48,19 @@ function printMailmanForm( $input, $argv, $parser, $frame ) {
 	$input = preg_replace('/listinfo/', 'subscribe', $input);
 	$input = strip_tags( $input );
 	
+	$out = $parser->getOutput();
+	$out->addModules( 'ext.mailman' );
+	
+	// TODO: Change to HTML MediaWiki Class
 	if ( array_key_exists( "ajax", $argv ) ) {
-		$out = $parser->getOutput();
-		$out->addModules( 'ext.mailman' );
+
 		$output = "<div class='mailman-mw'>".
-		"<input data-action=\"$input\" name=\"email\" type=\"text\" value=\"".wfMessage("mailman-email")->escaped()."\" onfocus=\"cleartext(this)\" class='mailman-extension' />".
+		"<input data-action=\"$input\" name=\"email\" type=\"email\" value=\"".wfMessage("mailman-email")->escaped()."\" class='mailman-extension' />".
 		"<input name=\"email-button\" type=\"button\" value=\"".wfMessage("mailman-subscribe")->escaped()."\" /></div>";
 		
 	} else {
 		$output = "<form action=\"$input\" method=\"post\">".
-		"<input name=\"email\" type=\"text\" value=\"".wfMessage("mailman-email")->escaped()."\" onfocus=\"cleartext(this)\" class='mailman-extension' />".
+		"<input name=\"email\" type=\"email\" value=\"".wfMessage("mailman-email")->escaped()."\" class='mailman-extension' />".
 		"<input name=\"email-button\" type=\"submit\" value=\"".wfMessage("mailman-subscribe")->escaped()."\" />".
 		"</form>";
 	}

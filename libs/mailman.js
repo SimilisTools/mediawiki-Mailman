@@ -33,7 +33,7 @@ $( document ).ready(function() {
 
 	function mailmanPost( action, email, context ) {
 		$.post( action, { email: email });
-		$(context).parent().append("<p class='mailman-message'>Subscribed. Check your email</p>");
+		$(context).parent().append("<p class='mailman-message'>" +  mw.msg( 'mailman-subscribed' ) + "</p>");
 	}
 
 });
